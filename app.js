@@ -9,9 +9,10 @@ import fileRoutes from './routes/file-routes.js';
 const app = express();
 
 app.use(express.json());
+app.use(express.urlencoded());
 
 app.use('/api/user', userRoutes);
-app.use('api/files', fileRoutes);
+app.use('/api/file', fileRoutes);
 
 app.listen(cfg.PORT, cfg.HOST, () => {
     console.log(`Server started at: ${cfg.HOST}:${cfg.PORT}`);
