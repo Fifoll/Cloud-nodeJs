@@ -1,28 +1,36 @@
 import fileExtension from 'file-extension';
 import fs from 'fs/promises';
 import path from 'path';
+import File from '../../models/file.js';
+import cryptoRandomString from 'crypto-random-string';
 
 const uploadFile = async (req, res) => {
     try {
-        const userId = req.userData.userId;
         const publicFolderPath = 'D:\\Szkolenia\\Altcom nodeJs\\nodejs-workshop\\miniProjects\\cloud\\Cloud\\public';
-        const file = req.file;
-        const fileName = req.body.fileName;
-        const extension = fileExtension(file.originalname);
-        let destinationPath;
-        destinationPath = req.body.fileName ? path.join(publicFolderPath, `${fileName}.${extension}`) :  path.join(publicFolderPath, file.originalname);
-        const temporaryFilePath = file.path;
+        const extension = fileExtension(req.file.originalname);
+        const randomString = cryptoRandomString({length: 10});
+        const destinationPath = path.join(publicFolderPath, `${randomString}.${extension}`);
+        const temporaryFilePath = req.file.path;
 
+        // zapisanie do bazy i przejście walidacji
+        const userId = req.userData.userId;
+        const fileName = req.body.fileName ? `${req.body.fileName}.${extension}` : req.file.originalname;
+        const fileInstance = await File.create({
+            name: fileName,
+            path: destinationPath,
+            user_id: userId
+        });
+
+        // zapisanie pliku na serwer
         const fileContent = await fs.readFile(temporaryFilePath);
-
         await fs.writeFile(destinationPath, fileContent);
-
         await fs.unlink(temporaryFilePath);
 
         res.status(200).send({
             success: true,
             status: res.status,
-            message: 'Plik został pomyślnie przesłany i zapisany.'
+            data: fileInstance,
+            message: `File successfully uploaded.`
         });
     } catch (err) {
         res.status(500).send({
