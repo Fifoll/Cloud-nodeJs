@@ -1,5 +1,6 @@
 import File from '../../models/file.js';
 import fs from 'fs/promises';
+import getFileFromDBIfExists from '../../utlis/getFileFromDBIfExists.js';
 
 const removeFileFromPublicFolder = async (path, res) => {
     try {
@@ -17,12 +18,7 @@ const removeFileFromPublicFolder = async (path, res) => {
 
 const deleteFile = async (req, res) => {
     try {
-        const file = await File.findOne({
-            where: {
-                user_id: req.userData.userId,
-                file_id: req.params.id
-            }
-        })
+        const file = await getFileFromDBIfExists(req.userData.userId, req.params.id, res);
 
         if (file) {
             const removed = await removeFileFromPublicFolder(file.path, res);
@@ -42,13 +38,6 @@ const deleteFile = async (req, res) => {
                 });
             }
 
-        }
-        else {
-            res.status(400).send({
-                success: false,
-                status: res.status,
-                message: `File with id ${req.params.id} doesnt exist`
-            });
         }
     }
     catch (err) {

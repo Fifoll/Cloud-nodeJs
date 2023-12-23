@@ -1,5 +1,6 @@
 import File from '../../models/file.js';
 import fileExtension from 'file-extension';
+import getFileFromDBIfExists from '../../utlis/getFileFromDBIfExists.js';
 
 const fileNameExists = async (name, res) => {
     const fileExists = await File.findOne({
@@ -22,13 +23,8 @@ const fileNameExists = async (name, res) => {
 
 const updateFileName = async (req, res) => {
     try {
-        const id = req.params.id;
-        const file = await File.findOne({
-            where: {
-                user_id: req.userData.userId,
-                file_id: id
-            }
-        })
+        const file = await getFileFromDBIfExists(req.userData.userId, req.params.id, res);
+
         if (file) {
             const extension = fileExtension(file.name);
             const newName = `${req.body.name}.${extension}`;
@@ -38,7 +34,7 @@ const updateFileName = async (req, res) => {
             if (!fileExists) {
                 await File.update({ name: newName }, {
                     where: {
-                        file_id: id
+                        file_id: req.params.id
                     }
                 })
 
@@ -49,13 +45,8 @@ const updateFileName = async (req, res) => {
                 });
             }
 
-        } else {
-            res.status(400).send({
-                success: false,
-                status: res.status,
-                message: `File with id ${id} doesnt exist`
-            });
         }
+
     }
     catch (err) {
         res.status(500).send({

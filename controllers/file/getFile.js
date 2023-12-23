@@ -1,24 +1,15 @@
-import File from '../../models/file.js';
+import getFileFromDBIfExists from '../../utlis/getFileFromDBIfExists.js';
+
 const getFile = async (req, res) => {
     try {
-        const file = await File.findOne({
-            where: {
-                user_id: req.userData.userId,
-                file_id: req.params.id
-            }
-        })
+        const file = await getFileFromDBIfExists(req.userData.userId, req.params.id, res);
+
         if(file) {
             res.status(200).send({
                 success: true,
                 status: res.status,
                 data: file,
                 message: `Display file with id ${req.params.id}`
-            });
-        } else {
-            res.status(400).send({
-                success: false,
-                status: res.status,
-                message: `File with id ${req.params.id} doesnt exist`
             });
         }
     }
