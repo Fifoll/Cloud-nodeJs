@@ -8,17 +8,33 @@ const encrypt = async (password) => {
 const register = async (req, res) => {
     try {
         const data = req.body;
-        const hashedPassword = await encrypt(data.password);
-        const user = await User.create({
-            email: data.email,
-            password: hashedPassword
+
+        const userExists = await User.findOne({
+            where: {
+                email: data.email,
+            }
         });
 
-        res.status(200).send({
-            success: true,
-            data: user,
-            message: `New user created with id ${user.id}`
-        })
+        if(!userExists) {
+            const hashedPassword = await encrypt(data.password);
+            const user = await User.create({
+                email: data.email,
+                password: hashedPassword
+            });
+    
+            res.status(200).send({
+                success: true,
+                data: user,
+                message: `New user created with id ${user.id}`
+            })
+        }
+        else {
+            res.status(207).send({
+                success: false,
+                message: `User with email ${data.email} already exists in database`
+            })
+        }
+
     } catch(err) {
         res.status(500).send({
             success: false,
