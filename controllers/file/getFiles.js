@@ -1,20 +1,14 @@
 import File from '../../models/file.js';
-import search from '../../utlis/search.js';
+import modifySearchResults from '../../utlis/modifySearchResults.js';
+import sortFiles from '../../utlis/sortFiles.js';
 
 const getFiles = async (req, res) => {
     try {
+        const sortQuery = req.query.sort;
         const searchQuery = req.query.search;
         const userId = req.userData.userId;
-        let files;
-        if(searchQuery) {
-            files = await search(searchQuery, userId);
-        } else {
-            files = await File.findAll({
-                where: {
-                    user_id: userId
-                }
-            })
-        }
+        const files = await modifySearchResults(searchQuery, sortQuery, userId);
+
         res.status(200).send({
             success: true,
             status: res.status,
