@@ -1,6 +1,4 @@
-import File from '../../models/file.js';
 import modifySearchResults from '../../utlis/modifySearchResults.js';
-import sortFiles from '../../utlis/sortFiles.js';
 
 const getFiles = async (req, res) => {
     try {
