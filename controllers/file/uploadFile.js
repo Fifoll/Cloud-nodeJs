@@ -3,6 +3,7 @@ import fs from 'fs/promises';
 import path from 'path';
 import File from '../../models/file.js';
 import cryptoRandomString from 'crypto-random-string';
+import { fileURLToPath } from 'url';
 
 const uploadFile = async (req, res) => {
     try {
@@ -28,7 +29,10 @@ const uploadFile = async (req, res) => {
         }
         else {
 
-            const publicFolderPath = 'D:\\Szkolenia\\Altcom nodeJs\\nodejs-workshop\\miniProjects\\cloud\\Cloud\\public';
+            const __filename = fileURLToPath(import.meta.url);
+            const __dirname = path.dirname(__filename);
+
+            const publicFolderPath = path.join(__dirname, '../../public');
             const randomString = cryptoRandomString({length: 10});
             const destinationPath = path.join(publicFolderPath, `${randomString}.${extension}`);
             const temporaryFilePath = req.file.path;
@@ -38,7 +42,7 @@ const uploadFile = async (req, res) => {
                 path: destinationPath,
                 user_id: userId
             });
-    
+
             // zapisanie pliku na serwer
             const fileContent = await fs.readFile(temporaryFilePath);
             await fs.writeFile(destinationPath, fileContent);
@@ -53,6 +57,7 @@ const uploadFile = async (req, res) => {
         }
 
     } catch (err) {
+        console.log(err);
         res.status(500).send({
             success: false,
             status: res.status,
