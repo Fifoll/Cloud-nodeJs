@@ -1,6 +1,6 @@
-import { promisify } from 'util';
-import getFileFromDBIfExists from '../../utlis/getFileFromDBIfExists.js';
-import fs from 'fs';
+const { promisify } = require('util');
+const getFileFromDBIfExists = require('../../utlis/getFileFromDBIfExists.js');
+const fs = require('fs');
 
 const readFileAsync = promisify(fs.readFile);
 
@@ -24,4 +24,4 @@ const downloadFile = async (req, res) => {
     }
 }
 
-export default downloadFile;
+module.exports = downloadFile;

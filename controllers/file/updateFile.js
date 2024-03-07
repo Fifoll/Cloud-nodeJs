@@ -1,6 +1,6 @@
-import File from '../../models/file.js';
-import fileExtension from 'file-extension';
-import getFileFromDBIfExists from '../../utlis/getFileFromDBIfExists.js';
+const File = require('../../models/file.js');
+const fileExtension = require('file-extension');
+const getFileFromDBIfExists = require('../../utlis/getFileFromDBIfExists.js');
 
 const fileNameExists = async (name, res) => {
     const fileExists = await File.findOne({
@@ -57,4 +57,4 @@ const updateFileName = async (req, res) => {
     }
 }
 
-export default updateFileName;
+module.exports = updateFileName;

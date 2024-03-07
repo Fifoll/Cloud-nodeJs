@@ -1,6 +1,6 @@
-import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
-import User from '../../models/user.js';
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+const User = require('../../models/user.js');
 
 const login = async (req, res) => {
     try {
@@ -15,7 +15,7 @@ const login = async (req, res) => {
                     status: 200,
                     data: token,
                     message: 'Auth successed'
-                })
+                });
                 return;
             }
         }
@@ -23,14 +23,14 @@ const login = async (req, res) => {
             success: false,
             status: res.status,
             message: 'Auth failed'
-        })
+        });
     } catch(err) {
         res.status(500).send({
             success: false,
             status: res.status,
             message: err.message
-        })
+        });
     }
-}
+};
 
-export default login;
+module.exports = login;

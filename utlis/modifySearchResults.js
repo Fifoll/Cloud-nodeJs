@@ -1,5 +1,5 @@
-import File from '../models/file.js';
-import { Op } from 'sequelize';
+const File = require('../models/file.js');
+const { Op } = require('sequelize');
 
 const modifySearchResults = async (searchQuery, sort, userId) => {
     try {
@@ -28,4 +28,4 @@ const modifySearchResults = async (searchQuery, sort, userId) => {
     }
 }
 
-export default modifySearchResults;
+module.exports = modifySearchResults;

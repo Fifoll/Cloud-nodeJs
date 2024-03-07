@@ -1,4 +1,4 @@
-import getFileFromDBIfExists from '../../utlis/getFileFromDBIfExists.js';
+const getFileFromDBIfExists = require('../../utlis/getFileFromDBIfExists.js');
 
 const getFile = async (req, res) => {
     try {
@@ -22,4 +22,4 @@ const getFile = async (req, res) => {
     }
 }
 
-export default getFile;
+module.exports = getFile;

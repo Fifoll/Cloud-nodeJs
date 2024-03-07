@@ -1,5 +1,5 @@
-import { DataTypes } from 'sequelize';
-import connection from '../db/mysql-conntection.js';
+const { DataTypes } = require('sequelize');
+const connection = require('../db/mysql-conntection.js');
 
 const User = connection.define('Users', {
     id: {
@@ -18,9 +18,8 @@ const User = connection.define('Users', {
     }
 }, {
     timestamps: false
-})
- 
+});
+
 connection.sync();
 
-export default User; 
-
+module.exports = User;

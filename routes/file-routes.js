@@ -1,12 +1,13 @@
-import express from 'express';
-import getFile from '../controllers/file/getFile.js';
-import uploadFile from '../controllers/file/uploadFile.js';
-import deleteFile from '../controllers/file/deleteFile.js';
-import updateFileName from '../controllers/file/updateFile.js';
-import checkAuth from '../middlewares/checkAuth.js';
-import multer from "multer";
-import getFiles from '../controllers/file/getFiles.js';
-import downloadFile from '../controllers/file/downloadFile.js';
+const express = require('express');
+const getFile = require('../controllers/file/getFile.js');
+const uploadFile = require('../controllers/file/uploadFile.js');
+const deleteFile = require('../controllers/file/deleteFile.js');
+const updateFileName = require('../controllers/file/updateFile.js');
+const checkAuth = require('../middlewares/checkAuth.js');
+const multer = require("multer");
+const getFiles = require('../controllers/file/getFiles.js');
+const downloadFile = require('../controllers/file/downloadFile.js');
+
 const upload = multer({dest: '../public'});
 
 const fileRoutes = express.Router();
@@ -18,4 +19,4 @@ fileRoutes.post('/', checkAuth, upload.single('file'), uploadFile);
 fileRoutes.delete('/:id', checkAuth, deleteFile);
 fileRoutes.put('/:id', checkAuth, updateFileName);
 
-export default fileRoutes;
+module.exports = fileRoutes;

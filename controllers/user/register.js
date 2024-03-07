@@ -1,5 +1,5 @@
-import User from '../../models/user.js';
-import bcrypt from 'bcrypt';
+const User = require('../../models/user.js');
+const bcrypt = require('bcrypt');
 
 const encrypt = async (password) => {
     return await bcrypt.hash(password, 10);
@@ -45,5 +45,4 @@ const register = async (req, res) => {
 
 }
 
-
-export default register;
+module.exports = register;

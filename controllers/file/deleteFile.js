@@ -1,6 +1,6 @@
-import File from '../../models/file.js';
-import fs from 'fs/promises';
-import getFileFromDBIfExists from '../../utlis/getFileFromDBIfExists.js';
+const File = require('../../models/file.js');
+const fs = require('fs/promises');
+const getFileFromDBIfExists = require('../../utlis/getFileFromDBIfExists.js');
 
 const removeFileFromPublicFolder = async (path, res) => {
     try {
@@ -49,4 +49,4 @@ const deleteFile = async (req, res) => {
     }
 }
 
-export default deleteFile;
+module.exports = deleteFile;

@@ -1,4 +1,4 @@
-import modifySearchResults from '../../utlis/modifySearchResults.js';
+const modifySearchResults = require('../../utlis/modifySearchResults.js');
 
 const getFiles = async (req, res) => {
     try {
@@ -23,4 +23,4 @@ const getFiles = async (req, res) => {
     }
 }
 
-export default getFiles;
+module.exports = getFiles;

@@ -1,6 +1,6 @@
-import jwt from 'jsonwebtoken';
+const jwt = require('jsonwebtoken');
 
-export default (req, res, next) => {
+module.exports = (req, res, next) => {
     try {
         const token = req.headers.authorization.split(" ")[1];
         const decoded = jwt.verify(token, 'key');
@@ -13,6 +13,6 @@ export default (req, res, next) => {
             success: false,
             message: 'Auth failed',
             status: res.status
-        })
+        });
     }
-}
+};

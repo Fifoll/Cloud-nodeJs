@@ -1,4 +1,4 @@
-import File from '../models/file.js';
+const File = require('../models/file.js');
 
 const getFileFromDBIfExists = async (user_id, file_id, res) => {
     try {
@@ -26,4 +26,4 @@ const getFileFromDBIfExists = async (user_id, file_id, res) => {
     }
 }
 
-export default getFileFromDBIfExists;
+module.exports = getFileFromDBIfExists;

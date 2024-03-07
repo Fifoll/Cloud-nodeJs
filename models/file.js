@@ -1,6 +1,6 @@
-import { DataTypes } from 'sequelize';
-import connection from '../db/mysql-conntection.js';
-import User from './user.js';
+const { DataTypes } = require('sequelize');
+const connection = require('../db/mysql-conntection.js');
+const User = require('./user.js');
 
 const File = connection.define('Files', {
     file_id: {
@@ -19,13 +19,12 @@ const File = connection.define('Files', {
     }
 }, {
     timestamps: false
-})
+});
 
 File.belongsTo(User, {
     foreignKey: 'user_id',
 });
- 
+
 connection.sync();
 
-export default File; 
-
+module.exports = File;

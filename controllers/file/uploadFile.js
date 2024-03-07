@@ -1,9 +1,9 @@
-import fileExtension from 'file-extension';
-import fs from 'fs/promises';
-import path from 'path';
-import File from '../../models/file.js';
-import cryptoRandomString from 'crypto-random-string';
-import { fileURLToPath } from 'url';
+const fileExtension = require('file-extension');
+const fs = require('fs/promises');
+const path = require('path');
+const File = require('../../models/file.js');
+const randomString = require('randomstring');
+const { fileURLToPath } = require('url');
 
 const uploadFile = async (req, res) => {
     try {
@@ -29,12 +29,9 @@ const uploadFile = async (req, res) => {
         }
         else {
 
-            const __filename = fileURLToPath(import.meta.url);
-            const __dirname = path.dirname(__filename);
-
             const publicFolderPath = path.join(__dirname, '../../public');
-            const randomString = cryptoRandomString({length: 10});
-            const destinationPath = path.join(publicFolderPath, `${randomString}.${extension}`);
+            const randomStringValue = randomString.generate(10);
+            const destinationPath = path.join(publicFolderPath, `${randomStringValue}.${extension}`);
             const temporaryFilePath = req.file.path;
             // zapisanie do bazy danych
             const fileInstance = await File.create({
@@ -66,4 +63,4 @@ const uploadFile = async (req, res) => {
     }
 }
 
-export default uploadFile;
+module.exports = uploadFile;
